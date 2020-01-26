@@ -1,0 +1,151 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="apple-touch-icon" type="image/png" href="https://static.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+<meta name="apple-mobile-web-app-title" content="CodePen">
+<link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+<link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111" />
+<title>CodePen - AACoding04-6</title>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
+<style>
+.incorrect {
+  background: red;
+}
+h1 {
+  background: blue;
+}
+
+.correct {
+  background: green;
+}
+
+ol {
+   background-image: url("https://www.edu.gov.mb.ca/k12/cur/math/images/math.jpg");
+  background-repeat: no-repeat;
+  background-position: 20% 50%;
+ 
+ 
+}
+
+.timerline{
+  background-color: #aaaaaa;
+}
+</style>
+</head>
+<body translate="no">
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<audio id="sad" controls>
+Your browsers does not support an audio tag.
+<source src="https://math.seattleacademy.org/garyanderson/snd/sad.mp3" type="audio/mpeg">
+</audio>
+<audio id="goodJob" controls>
+Your browsers does not support an audio tag.
+<source src="https://raw.githubusercontent.com/bencady/AACoding04-6/master/Good%20Job!.mp3">
+</audio>
+<div class="timerline">Timer: <span id="theTimer">0</span> Score: <span id="score">0</span> Errors: <span id="errors">0</span> Percent Correct: <span id="percentCorrect">0</span>% Correct: <span id="correct">0</span></div>
+<div class="alert alert-warning alert-dismissible fade show" role="alert" id="alertthing">
+<strong>Well Done!!!</strong> You Have Finished This Set of Problems.
+<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<h1>Ben's Awesome Math Problems</h1>
+<ol>
+<li class="list">\( 2^3 \) <input data-correct="8" /> </li>
+<li class="list">\( \sqrt[3]{8} \) <input data-correct="2" /></li>
+<li class="list">\( 8^\frac{1}{3} \) <input data-correct="2" /></li>
+<li class="list">\( 16^3/2 \) <input data-correct="2048" /> </li>
+<li class="list">\( 14^2 \) <input data-correct="196" /> </li>
+<li class="list">\( 220/5 \) <input data-correct="44" /> </li>
+<li class="list">\( 3^5 \) <input data-correct="32" /> </li>
+<li class="list">\( 5^4 \) <input data-correct="625" /> </li>
+<li class="list">\( 3.21+4.5 \) <input data-correct="7.71" /> </li>
+<li class="list">\( 60*.5 \) <input data-correct="30" /> </li>
+</ol>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+<script id="rendered-js">
+setInterval(onTimer, 1000);
+function onTimer() {
+  let theTimer = Number($("#theTimer").text());
+  theTimer = theTimer + 1;
+  $("#theTimer").text(theTimer);
+}
+
+$("input").change(onChange);
+
+function onChange(evt) {
+  
+  let correct = $(this).data("correct");
+  let response = $(this).val();
+  
+  if (correct == response) {
+    let score = Number($("#score").text());
+    goodJob.play();
+    let correct = Number($("#correct").text());
+    correct = correct + 1;
+    score = score + 1;
+    $("#correct").text(correct);
+    $("#score").text(score);
+    $(this)
+      .removeClass("incorrect")
+      .addClass("correct");
+    
+  } else {
+    $(this)
+      .removeClass("correct")
+      .addClass("incorrect");
+    let score = Number($("#score").text());
+    score = score - 1;
+    $("#score").text(score);
+    let errors = Number($("#errors").text());
+    errors = errors + 1;
+    $("#errors").text(errors);
+    if (Math.random() > 0.9) {
+      playSound();
+    }
+  }
+  percentCorrect();
+}
+
+
+function wellDone() {
+  let score = Number($("#score").text());
+  if (score == 10) {
+    $(".alert").fadeIn();
+  }
+}
+
+setInterval(wellDone, 1000);
+setInterval(closeAlert, 1);
+
+
+function closeAlert() {
+  let score = Number($("#score").text());
+  if (score != 10) {
+    $(".alert").fadeOut("fast");
+  }
+}
+
+const sad = document.getElementById("sad");
+const goodJob = document.getElementById("goodJob");
+
+function playSound(evt) {
+  sad.play();
+}
+
+function percentCorrect(){
+  let percentCorrect = Number($("#percentCorrect").text());
+  let correct = Number($("#correct").text());
+  let errors = Number($("#errors").text());
+  let totalAnaswer = correct + errors;
+  let coolstuff = correct/totalAnaswer;
+  percentCorrect = coolstuff * 100;
+  $("#percentCorrect").text(percentCorrect);
+}
+    </script>
+</body>
+</html>
